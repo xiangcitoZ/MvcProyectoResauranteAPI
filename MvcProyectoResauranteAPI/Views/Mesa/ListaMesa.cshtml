@@ -1,0 +1,66 @@
+﻿@model IEnumerable<NuggetRestauranteXZX.Models.Mesa>
+
+
+
+<h1>Lista Mesa</h1>
+<div>
+    <a asp-action="Mesa">Vuelta</a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdMesa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Estado)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Cantidad)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdMesa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Estado)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cantidad)
+                </td>
+                <td>
+                        <a asp-controller="Mesa"
+                         asp-action="Edit"
+                         asp-route-idmesa="@item.IdMesa"
+                       class="btn btn-outline-dark">
+                            Editar
+                        </a> 
+                        |
+                        <a asp-controller="Mesa"
+                         asp-action="Delete"
+                         asp-route-idmesa="@item.IdMesa"
+                       class="btn btn-outline-warning">
+                            Eliminar
+                        </a>
+                        |
+                        <a asp-controller="Home"
+                     asp-action="Index"
+                     asp-route-IdMesa="@item.IdMesa"
+                       class="btn btn-outline-info">
+                            Entrar
+                        </a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

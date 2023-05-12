@@ -1,0 +1,99 @@
+﻿@model IEnumerable<NuggetRestauranteXZX.Models.Pedido>
+
+@{
+    ViewData["Title"] = "Pedido";
+    decimal total = 0;
+}
+
+<h1>Pedido 1</h1>
+
+<a asp-action="Create"
+   class="btn btn-outline-primary">
+    Nueva Pedido
+</a>
+<a asp-controller="Mesa"
+   asp-action="Mesa"
+   class="btn btn-outline-success">
+    Mesa
+</a>
+<div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdPedido)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Precio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ItemsMenu)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdMesa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdMenu)
+            </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cantidad)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdPedido)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Precio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fecha)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemsMenu)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdMesa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdMenu)
+            </td>
+                @{
+                    total = total + item.Precio;
+                }
+            <td>
+                @Html.DisplayFor(modelItem => item.Cantidad)
+            </td>
+        
+            <td>
+                    <a asp-controller="Pedido"
+                   asp-action="Edit"
+                   asp-route-idpedido="@item.IdPedido"
+                       class="btn btn-outline-dark">
+                        Editar
+                    </a>
+                    |
+                    <a asp-controller="Pedido"
+                   asp-action="Delete"
+                   asp-route-idpedido="@item.IdPedido"
+                       class="btn btn-outline-warning">
+                        Eliminar
+                    </a>
+                   
+
+
+            </td>
+        </tr>
+}
+    </tbody>
+    
+</table>
+</div>

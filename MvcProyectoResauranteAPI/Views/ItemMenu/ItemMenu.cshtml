@@ -1,0 +1,79 @@
+﻿@model IEnumerable<NuggetRestauranteXZX.Models.ItemMenu>
+
+@{
+    ViewData["Title"] = "ItemMenu";
+}
+
+<h1>ItemMenu</h1>
+
+
+<a asp-action="Create"
+   class="btn btn-outline-primary">
+    Nueva Item 
+</a>
+
+<a asp-controller="Mesa"
+   asp-action="Mesa"
+   
+   class="btn btn-outline-success">
+    Mesa
+</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdMenu)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Categoria)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Imagen)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Precio)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdMenu)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Categoria)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Imagen)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Precio)
+            </td>
+            <td>
+                    <a asp-controller="ItemMenu"
+                   asp-action="Edit"
+                   asp-route-idmenu="@item.IdMenu"
+                       class="btn btn-outline-dark">
+                        Editar
+                    </a>
+                    |
+                    <a asp-controller="ItemMenu"
+                   asp-action="Delete"
+                   asp-route-idmenu="@item.IdMenu"
+                       class="btn btn-outline-warning">
+                        Eliminar
+                    </a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

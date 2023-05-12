@@ -49,7 +49,15 @@ namespace MvcProyectoResauranteAPI.Services
             return itemMenus;
         }
 
- 
+
+        public async Task<ItemMenu> FindItemMenuAsync(int idmenu)
+        {
+            string request = "/api/ItemMenu/" + idmenu;
+            ItemMenu menu =
+                await this.CallApiAsync<ItemMenu>(request);
+            return menu;
+        }
+
         public async Task DeleteItemMenuAsync(int idmenu)
         {
             using (HttpClient client = new HttpClient())
@@ -130,6 +138,14 @@ namespace MvcProyectoResauranteAPI.Services
             return Mesa;
         }
 
+        public async Task<Mesa> FindMesaAsync(int idmesa)
+        {
+            string request = "/api/Mesa/" + idmesa;
+            Mesa mesa =
+                await this.CallApiAsync<Mesa>(request);
+            return mesa;
+        }
+
 
         public async Task DeleteMesaAsync(int idmesa)
         {
@@ -208,6 +224,15 @@ namespace MvcProyectoResauranteAPI.Services
             return Pedido;
         }
 
+        public async Task<Pedido> FindPedidoAsync(int idpedido)
+        {
+            string request = "/api/Pedido/" + idpedido;
+            Pedido pedido =
+                await this.CallApiAsync<Pedido>(request);
+            return pedido;
+        }
+
+
 
         public async Task DeletePedidoAsync(int idpedido)
         {
@@ -224,7 +249,7 @@ namespace MvcProyectoResauranteAPI.Services
         }
 
         public async Task InsertPedidoAsync
-            (int idpedido, int precio, DateTime fecha, string itemsmenu, int idmesa, int idmenu, int cantidad)
+            (int idpedido, decimal precio, DateTime fecha, string itemsmenu, int idmesa, int idmenu, int cantidad)
         {
             using (HttpClient client = new HttpClient())
             {
@@ -254,7 +279,7 @@ namespace MvcProyectoResauranteAPI.Services
         }
 
         public async Task UpdatePedidoAsync
-           (int idpedido, int precio, DateTime fecha, string itemsmenu, int idmesa, int idmenu, int cantidad)
+           (int idpedido, decimal precio, DateTime fecha, string itemsmenu, int idmesa, int idmenu, int cantidad)
         {
             using (HttpClient client = new HttpClient())
             {

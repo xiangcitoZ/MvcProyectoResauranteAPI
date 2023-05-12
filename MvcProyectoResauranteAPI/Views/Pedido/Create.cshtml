@@ -1,0 +1,66 @@
+﻿@model NuggetRestauranteXZX.Models.Pedido
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<h1>Create</h1>
+
+<h4>Pedido</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+
+            <div class="form-group">
+                <label asp-for="Cantidad" class="control-label"></label>
+                <input type="number" asp-for="Cantidad" class="form-control" />
+            </div>
+            
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+
+                    <input type="hidden" asp-for="IdPedido" class="form-control" />
+
+                </div>
+                <div class="form-group">
+                    
+                     
+                    <input type="hidden" name="precio" value="@ViewData["PRECIO"]" class="form-control" />
+
+                </div>
+                <div class="form-group">
+
+                    <input type="hidden" asp-for="Fecha" class="form-control" />
+
+                </div>
+                <div class="form-group">
+                    <input type="hidden" asp-for="ItemsMenu" value="@ViewData["ITEMSMENU"]" class="form-control" />
+                </div>
+                <div class="form-group">
+
+                    <input type="hidden" asp-for="IdMesa" value="@ViewData["IDMESA"]" class="form-control" />
+
+                </div>
+                <div class="form-group">
+                    <input type="hidden" asp-for="IdMenu" value="@ViewData["IDMENU"]" class="form-control" />
+                </div>
+                
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            
+
+            
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Pedido">Vuelta</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
