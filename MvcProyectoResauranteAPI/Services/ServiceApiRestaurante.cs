@@ -49,10 +49,18 @@ namespace MvcProyectoResauranteAPI.Services
             return itemMenus;
         }
 
+        public async Task<List<ItemMenu>> GetItemMenuCategoriaAsync(string categoria)
+        {
+            string request = "/api/ItemMenu/GetItemMenuCategoria/" + categoria;
+            List<ItemMenu> itemMenus =
+                await this.CallApiAsync<List<ItemMenu>>(request);
+            return itemMenus;
+        }
+
 
         public async Task<ItemMenu> FindItemMenuAsync(int idmenu)
         {
-            string request = "/api/ItemMenu/" + idmenu;
+            string request = "/api/ItemMenu/FindItemMenu/" + idmenu;
             ItemMenu menu =
                 await this.CallApiAsync<ItemMenu>(request);
             return menu;
@@ -213,6 +221,22 @@ namespace MvcProyectoResauranteAPI.Services
             }
         }
 
+        public async Task<Mesa> GetMesaOcupadaAsync(int idmesa)
+        {
+            string request = "/api/Mesa/MesaOcupada/" + idmesa ;
+            Mesa Mesa =
+                await this.CallApiAsync<Mesa>(request);
+            return Mesa;
+        }
+
+        public async Task<Mesa> GetMesaLibreAsync(int idmesa)
+        {
+            string request = "/api/Mesa/MesaLibre/" + idmesa;
+            Mesa Mesa =
+                await this.CallApiAsync<Mesa>(request);
+            return Mesa;
+        }
+
 
         //PEDIDO
 
@@ -224,6 +248,16 @@ namespace MvcProyectoResauranteAPI.Services
             return Pedido;
         }
 
+        public async Task<List<Pedido>> GetPedidoMesaAsync(int idmesa)
+        {
+            string request = "/api/Pedido/GetPedidoMesa";
+            List<Pedido> Pedido =
+                await this.CallApiAsync<List<Pedido>>(request);
+            return Pedido;
+        }
+
+
+
         public async Task<Pedido> FindPedidoAsync(int idpedido)
         {
             string request = "/api/Pedido/" + idpedido;
@@ -232,7 +266,21 @@ namespace MvcProyectoResauranteAPI.Services
             return pedido;
         }
 
+        public async Task<Pedido> BuscarPedidoPagar(int idmesa)
+        {
+            string request = "/api/Pedido/BuscarPedidoPagar/" + idmesa;
+            Pedido pedido =
+                await this.CallApiAsync<Pedido>(request);
+            return pedido;
+        }
 
+        public async Task<Pedido> PagarPedido(int idmesa)
+        {
+            string request = "/api/Pedido/PagarPedido/" + idmesa;
+            Pedido pedido =
+                await this.CallApiAsync<Pedido>(request);
+            return pedido;
+        }
 
         public async Task DeletePedidoAsync(int idpedido)
         {
@@ -278,6 +326,9 @@ namespace MvcProyectoResauranteAPI.Services
             }
         }
 
+
+   
+
         public async Task UpdatePedidoAsync
            (int idpedido, decimal precio, DateTime fecha, string itemsmenu, int idmesa, int idmenu, int cantidad)
         {
@@ -309,7 +360,13 @@ namespace MvcProyectoResauranteAPI.Services
             }
         }
 
+        decimal total = 0;
+        public decimal SumaPrecio(decimal precio)
+        {
+            total = +precio;
+            return total;
 
+        }
 
 
     }

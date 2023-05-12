@@ -1,10 +1,23 @@
+using Azure.Storage.Blobs;
 using MvcProyectoResauranteAPI.Services;
+using MvcRepasoSegundoExam.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+string azureKeys =
+    builder.Configuration.GetValue<string>
+    ("AzureKeys:StorageAccount");
+BlobServiceClient blobServiceClient =
+    new BlobServiceClient(azureKeys);
+builder.Services.AddTransient<BlobServiceClient>(
+    x => blobServiceClient);
+
+
 builder.Services.AddTransient<ServiceApiRestaurante>();
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddTransient<ServiceStorageBlobs>();
 
 var app = builder.Build();
 
@@ -25,6 +38,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Mesa}/{action=Mesa}/{id?}");
 
 app.Run();

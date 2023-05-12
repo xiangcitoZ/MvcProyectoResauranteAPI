@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MvcProyectoResauranteAPI.Services;
+using MvcRepasoSegundoExam.Services;
 using NuggetRestauranteXZX.Models;
 using static NuGet.Packaging.PackagingConstants;
 
@@ -9,13 +10,18 @@ namespace MvcProyectoResauranteAPI.Controllers
     {
 
         private ServiceApiRestaurante service;
+        private ServiceStorageBlobs blob;
 
-        public ItemMenuController(ServiceApiRestaurante service)
+        public ItemMenuController(ServiceApiRestaurante service , ServiceStorageBlobs blobs)
         {
             this.service = service;
+            this.blob = blobs;
         }
         public async Task<IActionResult> ItemMenu()
         {
+
+            //List<BlobModel> listBlobs = await this.blob.GetBlobsAsync("imagenesrestaurante");
+            
             List<ItemMenu> itemMenus = 
               await this.service.GetItemMenuAsync();
             return View(itemMenus);

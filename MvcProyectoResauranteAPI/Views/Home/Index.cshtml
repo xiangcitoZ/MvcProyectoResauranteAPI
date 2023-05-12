@@ -1,8 +1,280 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿
+@model NuggetRestauranteXZX.Models.DatosMenuPedidos
+
+
+@{
+    ViewData["Title"] = "Pedido";
+    List<BlobModel> listBlobs = ViewData["IMAGENES"] as List<BlobModel>;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@section Scripts {
+    <script>
+
+        $(document).ready(function () {
+
+            $("#contenido").load("/Pedido/ListaPedido");
+
+            $("#displaybtn").click(function () {
+
+                if ($(".btn_hidden").css("display") == "none") {
+                    $(".btn_hidden").css("display", "inline-block");
+                } else {
+                    $(".btn_hidden").css("display", "none");
+                }
+
+                //    $("#btn_hidden").css("display", "none");
+            })
+
+
+        })
+    </script>
+ }
+
+<div class="register">
+    <div class="left">
+        <div class="order-window">
+            @*<div id="contenido"></div>*@
+            @{
+
+                decimal total = 0;
+
+            }
+
+            <hr />
+
+            <h3>Mesa: @ViewData["IDMESA"]   </h3>
+
+            <table class="table">
+                <thead align="center">
+                    <tr>
+
+                        <th>
+                            Nombre
+                        </th>
+
+                        <th>
+                            Precio
+                        </th>
+                        <th>
+                            Cantidad
+                        </th>
+                        <th>
+                            Total
+                        </th>
+                        <th>
+
+                        </th>
+                    </tr>
+                </thead>
+                <tbody align="center">
+
+
+                    @if (Model.Pedidos.Count == 0)
+                    {
+
+
+                    }
+                    else
+                    {
+
+
+                        @foreach (var item in Model.Pedidos)
+                        {
+
+                            <tr>
+
+
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ItemsMenu)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Precio)
+                                </td>
+
+                                @{
+                                    total = total + (item.Precio * item.Cantidad);
+                                }
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Cantidad)
+                                </td>
+                                <td>
+                                    @{
+                                        var precio = item.Cantidad * item.Precio;
+                                    }
+                                    @precio
+                                </td>
+                                <td style="display:none" class="btn_hidden">
+                                    <a asp-controller="Pedido"
+                               asp-action="Delete"
+                               asp-route-idpedido="@item.IdPedido"
+                               asp-route-idmesa=" @ViewData["IDMESA"]"
+                                       class="btn btn-danger ">
+                                        Eliminar
+                                    </a>
+                                </td>
+
+
+                            </tr>
+                        }
+                    }
+                </tbody>
+
+            </table>
+
+
+
+        </div>
+        <a asp-controller="Home"
+           asp-action="PagarPedido"
+           asp-route-idmesa="@ViewData["IDMESA"]"
+           class="btn btn-dark ">
+            PAGAR
+        </a>
+        <button class="btn btn-outline-danger" id="displaybtn">Editar</button>
+        <div class="order-total">
+
+            <span>TOTAL: @total€</span>
+        </div>
+        @*<div class="buttons">
+
+        <button>
+        <i class="fas fa-print"></i>
+        Print
+        </button>
+        <button>1</button>
+        <button>2</button>
+        <button>3</button>
+        <button>
+        <i class="fas fa-ban"></i>
+        Void
+        </button>
+        <button>4</button>
+        <button>5</button>
+        <button>6</button>
+        <button>
+        <i class="fa fa-times"></i>
+        QTY
+        </button>
+        <button>7</button>
+        <button>8</button>
+        <button>9</button>
+        <button>
+        <i class="fas fa-sign-out-alt"></i>
+        Exit
+        </button>
+        <div></div>
+        <button>0</button>
+        <button>.00</button>
+        </div>*@
+    </div>
+    <div class="right">
+        <div class="categories">
+            <ul>
+                <li>
+                    <a asp-controller="Home"
+                       asp-action="Index"
+                       asp-route-idmesa="@ViewData["IDMESA"]"
+                       asp-route-descripcion="Arroz">
+                        ARROZ
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="Home"
+                       asp-action="Index"
+                       asp-route-idmesa="@ViewData["IDMESA"]"
+                       asp-route-descripcion="Sopa">
+                        SOPA
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="Home"
+                       asp-action="Index"
+                       asp-route-idmesa="@ViewData["IDMESA"]"
+                       asp-route-descripcion="Marisco">
+                        MARISCO
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="Home"
+                       asp-action="Index"
+                       asp-route-idmesa="@ViewData["IDMESA"]"
+                       asp-route-descripcion="Ternera">
+                        TERNERA
+                    </a>
+                </li>
+
+                <li>
+                    <a asp-controller="Home"
+                       asp-action="Index"
+                       asp-route-idmesa="@ViewData["IDMESA"]"
+                       asp-route-descripcion="Postre">
+                        POSTRE
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="Home"
+                       asp-action="Index"
+                       asp-route-idmesa="@ViewData["IDMESA"]"
+                       asp-route-descripcion="Bebida">
+                        BEBIDA
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="menu-items">
+            <ul>
+                @foreach (var item in Model.Items)
+                {
+
+                   @foreach(BlobModel blob in listBlobs)
+                    {
+                        <li>
+                            @if (blob.Nombre == item.Imagen)
+                            {
+                                <a asp-controller="Pedido"
+                                   asp-action="Create"
+                                   asp-route-IdMenu="@item.IdMenu"
+                                   asp-route-ItemsMenu="@item.Nombre"
+                                   asp-route-precio="@item.Precio"
+                                   asp-route-IdMesa="@ViewData["IDMESA"]">
+                                    <img width:"50px" height:"50px" src="@blob.Url">
+                                    @item.Nombre - @item.Precio €
+                                </a>
+                            }
+                        </li>
+                    }
+
+                }
+            </ul>
+
+        </div>
+        <div class="categories">
+            <ul>
+
+                <li>
+                    <a asp-controller="ItemMenu"
+                       asp-action="ItemMenu"
+                       asp-route-IdMesa="@ViewData["IDMESA"]">
+                        Item Menu
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="Mesa"
+                       asp-action="Mesa">
+                        Mesa
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="Pedido"
+                       asp-action="Pedido"
+                       asp-route-IdMesa="@ViewData["IDMESA"]">
+                        Pedido
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
+
