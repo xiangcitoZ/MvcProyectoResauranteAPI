@@ -39,11 +39,11 @@ namespace MvcProyectoResauranteAPI.Controllers
                 (pedido.IdPedido, pedido.Precio, DateTime.Now,
                 pedido.ItemsMenu, pedido.IdMesa, pedido.IdMenu, pedido.Cantidad);
 
-            //await this.service.MesaOcupado(pedido.IdMesa);
+            await this.service.GetMesaOcupadaAsync(pedido.IdMesa);
 
-            //return RedirectToAction
-            //    ("Index", "Home", new { IdMesa = pedido.IdMesa, descripcion = "Arroz" });
-            return RedirectToAction("Index","Home");
+            return RedirectToAction
+               ("Index", "Home", new { IdMesa = pedido.IdMesa, descripcion = "Arroz" });
+            //return RedirectToAction("Index","Home");
         }
 
 

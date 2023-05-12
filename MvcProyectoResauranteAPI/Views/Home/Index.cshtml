@@ -227,25 +227,28 @@
             <ul>
                 @foreach (var item in Model.Items)
                 {
-
-                   @foreach(BlobModel blob in listBlobs)
+                     <li>
+                    <a asp-controller="Pedido"
+                   asp-action="Create"
+                   asp-route-IdMenu="@item.IdMenu"
+                   asp-route-ItemsMenu="@item.Nombre"
+                   asp-route-precio="@item.Precio"
+                   asp-route-IdMesa="@ViewData["IDMESA"]">
+                        
+                    @foreach(BlobModel blob in listBlobs)
                     {
-                        <li>
                             @if (blob.Nombre == item.Imagen)
                             {
-                                <a asp-controller="Pedido"
-                                   asp-action="Create"
-                                   asp-route-IdMenu="@item.IdMenu"
-                                   asp-route-ItemsMenu="@item.Nombre"
-                                   asp-route-precio="@item.Precio"
-                                   asp-route-IdMesa="@ViewData["IDMESA"]">
-                                    <img width:"50px" height:"50px" src="@blob.Url">
-                                    @item.Nombre - @item.Precio €
-                                </a>
+                                
+                              <img style="height:150px; width: 180px"  src="@blob.Url">
+                                
                             }
-                        </li>
-                    }
 
+                    }
+                        @item.Nombre - @item.Precio €
+                    </a>
+                    </li>
+                
                 }
             </ul>
 
