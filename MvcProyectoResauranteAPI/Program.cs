@@ -1,10 +1,9 @@
 using Azure.Storage.Blobs;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using MvcProyectoResauranteAPI.Services;
 using MvcRepasoSegundoExam.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-
-
 
 // Add services to the container.
 string azureKeys =
@@ -17,9 +16,26 @@ builder.Services.AddTransient<BlobServiceClient>(
 
 
 builder.Services.AddTransient<ServiceApiRestaurante>();
-builder.Services.AddControllersWithViews();
-
+builder.Services.AddControllersWithViews(
+     options => options.EnableEndpointRouting = false);
 builder.Services.AddTransient<ServiceStorageBlobs>();
+
+builder.Services.AddMemoryCache();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddResponseCaching();
+
+
+//SEGURIDAD
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultSignInScheme =
+    CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultAuthenticateScheme =
+    CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme =
+    CookieAuthenticationDefaults.AuthenticationScheme;
+}).AddCookie();
+
 
 var app = builder.Build();
 
@@ -36,10 +52,11 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Mesa}/{action=Mesa}/{id?}");
+    pattern: "{controller=Managed}/{action=Login}/{id?}");
 
 app.Run();
