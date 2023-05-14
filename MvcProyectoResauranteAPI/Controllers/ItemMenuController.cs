@@ -2,6 +2,7 @@
 using MvcProyectoResauranteAPI.Services;
 using MvcRepasoSegundoExam.Services;
 using NuggetRestauranteXZX.Models;
+using MvcProyectoResauranteAPI.Helpers;
 using static NuGet.Packaging.PackagingConstants;
 
 namespace MvcProyectoResauranteAPI.Controllers
@@ -11,11 +12,14 @@ namespace MvcProyectoResauranteAPI.Controllers
 
         private ServiceApiRestaurante service;
         private ServiceStorageBlobs blob;
+        private HelperPathProvider helperPath;
 
-        public ItemMenuController(ServiceApiRestaurante service , ServiceStorageBlobs blobs)
+        public ItemMenuController(ServiceApiRestaurante service 
+            , ServiceStorageBlobs blobs, HelperPathProvider helperPath)
         {
             this.service = service;
             this.blob = blobs;
+            this.helperPath = helperPath;
         }
         public async Task<IActionResult> ItemMenu()
         {
@@ -34,15 +38,20 @@ namespace MvcProyectoResauranteAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ItemMenu menu)
+        public async Task<IActionResult> Create(ItemMenu menu, IFormFile fichero)
         {
 
+            string fileName = fichero.FileName;
 
-            
-
+            string path = this.helperPath.MapPath(fileName, Helpers.Folders.Images);
+            using (Stream stream = new FileStream(path, FileMode.Create))
+            {
+                await fichero.CopyToAsync(stream);
+            }
+            ViewData["MENSAJE"] = "Fichero subido a " + path;
             await this.service.InsertItemMenuAsync
                 (menu.IdMenu, menu.Nombre, menu.Categoria,
-                menu.Imagen, menu.Precio);
+                fileName, menu.Precio);
             return RedirectToAction("ItemMenu");
         }
 

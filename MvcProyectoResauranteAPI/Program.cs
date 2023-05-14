@@ -1,8 +1,11 @@
 using Azure.Storage.Blobs;
+using MvcProyectoResauranteAPI.Helpers;
 using MvcProyectoResauranteAPI.Services;
 using MvcRepasoSegundoExam.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSingleton<HelperPathProvider>();
 
 // Add services to the container.
 string azureKeys =

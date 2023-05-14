@@ -20,4 +20,8 @@
     <PackageReference Include="NuggetRestauranteXZX" Version="2.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
 </Project>
