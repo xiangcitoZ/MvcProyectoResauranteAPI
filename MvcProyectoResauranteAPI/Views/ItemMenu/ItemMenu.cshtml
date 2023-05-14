@@ -2,13 +2,14 @@
 
 @{
     ViewData["Title"] = "ItemMenu";
-
+     List<BlobModel> listBlobs = ViewData["IMAGENES"] as List<BlobModel>;
 }
 
 <h1>ItemMenu</h1>
 
 
 <a asp-action="Create"
+   asp-route-containerName="@ViewData["IMAGENES"]"
    class="btn btn-outline-primary">
     Nueva Item 
 </a>
@@ -70,6 +71,8 @@
                     <a asp-controller="ItemMenu"
                    asp-action="Delete"
                    asp-route-idmenu="@item.IdMenu"
+                   asp-route-containerName="@ViewData["IMAGENES"]"
+                   asp-route-blobName="@item.Imagen"
                        class="btn btn-outline-warning">
                         Eliminar
                     </a>

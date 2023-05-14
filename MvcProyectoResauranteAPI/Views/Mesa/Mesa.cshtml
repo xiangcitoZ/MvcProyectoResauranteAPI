@@ -39,12 +39,6 @@
 
 
 
-<a asp-controller="Home"
-   asp-action="Index"
-   class="btn btn-outline-success">
-    Restaurante
-</a>
-
 <a asp-controller="Mesa"
    asp-action="ListaMesa"
    class="btn btn-outline-secondary">
@@ -55,10 +49,11 @@
 <div class="registermesa">
 <div class="right">
 <div class="menu-items">
+            
     <ul>
         @foreach (var item in Model)
         {
-
+           
                  
                 <a asp-controller="Home"
                      asp-action="Index"

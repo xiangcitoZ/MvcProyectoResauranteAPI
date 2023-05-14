@@ -102,7 +102,7 @@ namespace MvcRepasoSegundoExam.Services
         public async Task DeleteBlobAsync(string containerName, string blobName)
         {
             BlobContainerClient containerClient =
-                this.client.GetBlobContainerClient(containerName);
+                this.client.GetBlobContainerClient("imagenesrestaurante");
             await containerClient.DeleteBlobAsync(blobName);
         }
 
@@ -110,11 +110,17 @@ namespace MvcRepasoSegundoExam.Services
         public async Task UploadBlobAsync(string containerName, string blobName, Stream stream)
         {
             BlobContainerClient containerClient =
-                this.client.GetBlobContainerClient(containerName);
+                this.client.GetBlobContainerClient("imagenesrestaurante");
             await containerClient.UploadBlobAsync(blobName, stream);
         }
 
-
+        public async Task InsertarImagen
+        (string containerName, string blobName, Stream stream)
+        {
+            BlobContainerClient containerClient =
+                this.client.GetBlobContainerClient(containerName);
+            await containerClient.UploadBlobAsync(blobName, stream);
+        }
 
 
     }

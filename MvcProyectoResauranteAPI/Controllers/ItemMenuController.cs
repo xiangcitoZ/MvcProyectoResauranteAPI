@@ -2,7 +2,6 @@
 using MvcProyectoResauranteAPI.Services;
 using MvcRepasoSegundoExam.Services;
 using NuggetRestauranteXZX.Models;
-using MvcProyectoResauranteAPI.Helpers;
 using static NuGet.Packaging.PackagingConstants;
 
 namespace MvcProyectoResauranteAPI.Controllers
@@ -12,14 +11,14 @@ namespace MvcProyectoResauranteAPI.Controllers
 
         private ServiceApiRestaurante service;
         private ServiceStorageBlobs blob;
-        private HelperPathProvider helperPath;
+        
 
         public ItemMenuController(ServiceApiRestaurante service 
-            , ServiceStorageBlobs blobs, HelperPathProvider helperPath)
+            , ServiceStorageBlobs blobs)
         {
             this.service = service;
             this.blob = blobs;
-            this.helperPath = helperPath;
+            
         }
         public async Task<IActionResult> ItemMenu()
         {
@@ -32,26 +31,27 @@ namespace MvcProyectoResauranteAPI.Controllers
         }
 
 
-        public IActionResult Create()
+        public IActionResult Create(string containerName)
         {
+            ViewData["CONTAINER"] = containerName;
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ItemMenu menu, IFormFile fichero)
+        public async Task<IActionResult> Create(ItemMenu menu, string containerName, IFormFile file)
         {
 
-            string fileName = fichero.FileName;
-
-            string path = this.helperPath.MapPath(fileName, Helpers.Folders.Images);
-            using (Stream stream = new FileStream(path, FileMode.Create))
+            string blobName = file.FileName;
+            using (Stream stream = file.OpenReadStream())
             {
-                await fichero.CopyToAsync(stream);
+                await this.blob.UploadBlobAsync
+                    (containerName, blobName, stream);
+
             }
-            ViewData["MENSAJE"] = "Fichero subido a " + path;
+
             await this.service.InsertItemMenuAsync
                 (menu.IdMenu, menu.Nombre, menu.Categoria,
-                fileName, menu.Precio);
+                blobName, menu.Precio);
             return RedirectToAction("ItemMenu");
         }
 
@@ -70,8 +70,9 @@ namespace MvcProyectoResauranteAPI.Controllers
             return RedirectToAction("ItemMenu");
         }
 
-        public async Task<IActionResult> Delete(int idmenu)
+        public async Task<IActionResult> Delete(int idmenu ,string containerName, string blobName)
         {
+            await this.blob.DeleteBlobAsync(containerName, blobName);
             await this.service.DeleteItemMenuAsync(idmenu);
             return RedirectToAction("ItemMenu");
         }
