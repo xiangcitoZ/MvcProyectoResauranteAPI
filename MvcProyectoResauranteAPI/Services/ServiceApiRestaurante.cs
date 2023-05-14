@@ -250,7 +250,7 @@ namespace MvcProyectoResauranteAPI.Services
 
         public async Task<List<Pedido>> GetPedidoMesaAsync(int idmesa)
         {
-            string request = "/api/Pedido/GetPedidoMesa";
+            string request = "/api/Pedido/GetPedidoMesa/"+ idmesa;
             List<Pedido> Pedido =
                 await this.CallApiAsync<List<Pedido>>(request);
             return Pedido;
