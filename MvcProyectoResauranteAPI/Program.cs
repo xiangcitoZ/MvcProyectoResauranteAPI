@@ -34,9 +34,13 @@ builder.Services.AddControllersWithViews(
      options => options.EnableEndpointRouting = false);
 builder.Services.AddTransient<ServiceStorageBlobs>();
 
-builder.Services.AddMemoryCache();
+
 builder.Services.AddDistributedMemoryCache();
-builder.Services.AddResponseCaching();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+});
+
 
 
 //SEGURIDAD
@@ -68,9 +72,13 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Managed}/{action=Login}/{id?}");
+app.UseSession();
+app.UseMvc(routes =>
+{
+    routes.MapRoute(
+        name: "default",
+        template: "{controller=Managed}/{action=Login}/{id?}"
+        );
+});
 
 app.Run();
