@@ -26,43 +26,6 @@ namespace MvcProyectoResauranteAPI.Services
             keyVaultSecret.Value;
         }
 
-        //LOGIN
-
-        public async Task<string> GetTokenAsync(string username, string password)
-        {
-            using (HttpClient client = new HttpClient())
-            {
-                string request = "/api/auth/login";
-                client.BaseAddress = new Uri(this.UrlApi);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(this.Header);
-                LoginModel model = new LoginModel
-                {
-                    UserName = username,
-                    Password = password
-                };
-
-                string jsonModel = JsonConvert.SerializeObject(model);
-                StringContent content =
-                    new StringContent(jsonModel, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PostAsync(request, content);
-                if (response.IsSuccessStatusCode)
-                {
-                    string data =
-                        await response.Content.ReadAsStringAsync();
-                    JObject jsonObject = JObject.Parse(data);
-                    string token =
-                        jsonObject.GetValue("response").ToString();
-                    return token;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-
-
 
         private async Task<T> CallApiAsync<T>(string request)
         {
@@ -110,8 +73,45 @@ namespace MvcProyectoResauranteAPI.Services
             }
         }
 
+
+
+        #region LOGIN
+        public async Task<string> GetTokenAsync(string username, string password)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                string request = "/api/auth/login";
+                client.BaseAddress = new Uri(this.UrlApi);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(this.Header);
+                LoginModel model = new LoginModel
+                {
+                    UserName = username,
+                    Password = password
+                };
+
+                string jsonModel = JsonConvert.SerializeObject(model);
+                StringContent content =
+                    new StringContent(jsonModel, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(request, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    string data =
+                        await response.Content.ReadAsStringAsync();
+                    JObject jsonObject = JObject.Parse(data);
+                    string token =
+                        jsonObject.GetValue("response").ToString();
+                    return token;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
         public async Task GetRegisterUserAsync
-            (string nombre, string email, string password, string imagen)
+          (string nombre, string email, string password, string imagen)
         {
 
             using (HttpClient client = new HttpClient())
@@ -124,7 +124,7 @@ namespace MvcProyectoResauranteAPI.Services
                 Usuario usuario = new Usuario();
                 usuario.IdUsuario = 0;
                 usuario.Nombre = nombre;
-     
+
                 usuario.Email = email;
                 usuario.Password = password;
                 usuario.ImagenPerfil = imagen;
@@ -138,8 +138,10 @@ namespace MvcProyectoResauranteAPI.Services
             }
         }
 
-        //ITEM MENU
+        #endregion
 
+
+        #region ITEM MENU
         public async Task<List<ItemMenu>> GetItemMenuAsync()
         {
             string request = "/api/ItemMenu";
@@ -191,7 +193,7 @@ namespace MvcProyectoResauranteAPI.Services
 
                 ItemMenu menu = new ItemMenu();
                 menu.IdMenu = idmenu;
-                menu.Nombre = nombre;   
+                menu.Nombre = nombre;
                 menu.Categoria = categoria;
                 menu.Imagen = imagen;
                 menu.Precio = precio;
@@ -234,8 +236,10 @@ namespace MvcProyectoResauranteAPI.Services
                 await client.PutAsync(request, content);
             }
         }
+        #endregion
 
-        //MESA
+
+        #region MESA
 
         public async Task<List<Mesa>> GetMesaAsync()
         {
@@ -322,7 +326,7 @@ namespace MvcProyectoResauranteAPI.Services
 
         public async Task<Mesa> GetMesaOcupadaAsync(int idmesa)
         {
-            string request = "/api/Mesa/MesaOcupada/" + idmesa ;
+            string request = "/api/Mesa/MesaOcupada/" + idmesa;
             Mesa Mesa =
                 await this.CallApiAsync<Mesa>(request);
             return Mesa;
@@ -337,8 +341,9 @@ namespace MvcProyectoResauranteAPI.Services
         }
 
 
-        //PEDIDO
+        #endregion
 
+        #region PEDIDO
         public async Task<List<Pedido>> GetPedidoAsync()
         {
             string request = "/api/Pedido/GetPedido";
@@ -349,7 +354,7 @@ namespace MvcProyectoResauranteAPI.Services
 
         public async Task<List<Pedido>> GetPedidoMesaAsync(int idmesa)
         {
-            string request = "/api/Pedido/GetPedidoMesa/"+ idmesa;
+            string request = "/api/Pedido/GetPedidoMesa/" + idmesa;
             List<Pedido> Pedido =
                 await this.CallApiAsync<List<Pedido>>(request);
             return Pedido;
@@ -410,7 +415,7 @@ namespace MvcProyectoResauranteAPI.Services
                 pedido.Precio = precio;
                 pedido.Fecha = fecha;
                 pedido.ItemsMenu = itemsmenu;
-                
+
                 pedido.IdMesa = idmesa;
                 pedido.IdMenu = idmenu;
                 pedido.Cantidad = cantidad;
@@ -426,7 +431,7 @@ namespace MvcProyectoResauranteAPI.Services
         }
 
 
-   
+
 
         public async Task UpdatePedidoAsync
            (int idpedido, decimal precio, DateTime fecha, string itemsmenu, int idmesa, int idmenu, int cantidad)
@@ -441,13 +446,13 @@ namespace MvcProyectoResauranteAPI.Services
                 Pedido pedido =
                     new Pedido
                     {
-                      IdPedido = idpedido,
-                      Precio = precio,
-                      Fecha = fecha,
-                      ItemsMenu = itemsmenu,
-                      IdMenu = idmenu,
-                      IdMesa = idmesa,
-                      Cantidad  = cantidad
+                        IdPedido = idpedido,
+                        Precio = precio,
+                        Fecha = fecha,
+                        ItemsMenu = itemsmenu,
+                        IdMenu = idmenu,
+                        IdMesa = idmesa,
+                        Cantidad = cantidad
                     };
 
                 string json = JsonConvert.SerializeObject(pedido);
@@ -466,6 +471,13 @@ namespace MvcProyectoResauranteAPI.Services
             return total;
 
         }
+
+        #endregion
+
+
+
+
+
 
 
 
