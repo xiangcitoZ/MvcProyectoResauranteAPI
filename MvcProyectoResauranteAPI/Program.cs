@@ -1,14 +1,28 @@
+using Azure.Security.KeyVault.Secrets;
 using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.Extensions.Azure;
 using MvcProyectoResauranteAPI.Services;
 using MvcRepasoSegundoExam.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-string azureKeys =
-    builder.Configuration.GetValue<string>
-    ("AzureKeys:StorageAccount");
+
+
+builder.Services.AddAzureClients(factory =>
+{
+    factory.AddSecretClient(builder.Configuration.GetSection("KeyVault"));
+});
+
+SecretClient secretClient =
+ builder.Services.BuildServiceProvider().GetService<SecretClient>();
+KeyVaultSecret keyVaultSecret = await
+ secretClient.GetSecretAsync("StorageAccount");
+
+
+string azureKeys = keyVaultSecret.Value;
+
 BlobServiceClient blobServiceClient =
     new BlobServiceClient(azureKeys);
 builder.Services.AddTransient<BlobServiceClient>(

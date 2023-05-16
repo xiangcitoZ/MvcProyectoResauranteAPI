@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Azure.Security.KeyVault.Secrets;
+using Newtonsoft.Json;
 using NuggetRestauranteXZX.Models;
 using System.Net.Http.Headers;
 using System.Text;
@@ -10,12 +11,15 @@ namespace MvcProyectoResauranteAPI.Services
         private MediaTypeWithQualityHeaderValue Header;
         private string UrlApi;
 
-        public ServiceApiRestaurante(IConfiguration configuration)
+        //SECRET KEY
+        public ServiceApiRestaurante(SecretClient secretclient)
         {
             this.Header =
                 new MediaTypeWithQualityHeaderValue("application/json");
-            this.UrlApi = configuration.GetValue<string>
-                ("ApiUrls:ApiProyectoRestaurante");
+            KeyVaultSecret keyVaultSecret =
+                       secretclient.GetSecretAsync("ApiProyectoRestaurante").Result.Value;
+            this.UrlApi =
+            keyVaultSecret.Value;
         }
 
         private async Task<T> CallApiAsync<T>(string request)
