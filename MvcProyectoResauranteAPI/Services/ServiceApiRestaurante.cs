@@ -16,6 +16,9 @@ namespace MvcProyectoResauranteAPI.Services
         {
             this.Header =
                 new MediaTypeWithQualityHeaderValue("application/json");
+
+
+            //SECRET KEY
             KeyVaultSecret keyVaultSecret =
                        secretclient.GetSecretAsync("ApiProyectoRestaurante").Result.Value;
             this.UrlApi =

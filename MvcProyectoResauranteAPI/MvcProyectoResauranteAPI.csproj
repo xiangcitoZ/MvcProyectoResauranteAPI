@@ -23,7 +23,7 @@
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.9" />
     <PackageReference Include="Microsoft.Extensions.Azure" Version="1.6.3" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
-    <PackageReference Include="NuggetRestauranteXZX" Version="2.0.0" />
+    <PackageReference Include="NuggetRestauranteXZX" Version="3.0.0" />
   </ItemGroup>
 
 </Project>
