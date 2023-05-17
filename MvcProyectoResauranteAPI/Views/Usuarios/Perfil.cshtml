@@ -7,8 +7,19 @@
 
 <h1>Perfil</h1>
 
+<div >
+    <a class="btn btn-success" asp-controller="Mesa" asp-action="Mesa">Vuelta</a>
+</div>
+
 <div>
-    <h4>Usuario</h4>
+    <h4>Usuario: </h4> 
+    @if (Context.User.Identity.IsAuthenticated)
+    {
+        <a class="btn btn-dark" asp-controller="Managed" asp-action="Logout">
+            Log Out
+            <span style="color:yellow">@Context.User.Identity.Name</span>
+        </a>
+    }
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -41,3 +52,5 @@
 
     <img src="@imgPerfil.Url" style="height:150px" />
 </div>
+
+

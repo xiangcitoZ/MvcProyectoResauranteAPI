@@ -59,7 +59,7 @@ namespace MvcProyectoResauranteAPI.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             HttpContext.Session.Remove("TOKEN");
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Managed");
         }
 
         public IActionResult Register()

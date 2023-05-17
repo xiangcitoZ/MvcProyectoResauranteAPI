@@ -8,6 +8,9 @@
 <h1>Create</h1>
 
 <h4>Pedido</h4>
+<a class="btn btn-success"
+   asp-controller="Pedido"
+   asp-action="Pedido">Vuelta</a>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -57,9 +60,6 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Pedido">Vuelta</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
