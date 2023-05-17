@@ -1,22 +1,25 @@
-﻿using Azure.Storage.Blobs;
+﻿using Azure.Security.KeyVault.Secrets;
+using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Azure.Storage.Sas;
 using NuggetRestauranteXZX.Models;
 using System.Configuration;
 using System.Threading.Tasks;
 
-namespace MvcRepasoSegundoExam.Services
+namespace MvcProyectoResauranteAPI.Services
 {
     public class ServiceStorageBlobs
     {
         private BlobServiceClient client;
         private string UrlAzureStorage;
 
-        public ServiceStorageBlobs(IConfiguration configuration, BlobServiceClient client)
+        public ServiceStorageBlobs(SecretClient secretclient, BlobServiceClient client)
         {
             this.client = client;
+            KeyVaultSecret keyVaultSecret =
+                       secretclient.GetSecretAsync("StorageAccount").Result.Value;
             this.UrlAzureStorage =
-                configuration.GetValue<string>("AzureKeys:StorageAccount");
+            keyVaultSecret.Value;
         }
 
 

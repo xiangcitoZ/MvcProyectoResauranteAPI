@@ -73,6 +73,15 @@ namespace MvcProyectoResauranteAPI.Services
             }
         }
 
+        public async Task<Usuario> GetPerfilUsuarioAsync
+           (string token)
+        {
+            string request = "/api/usuarios/perfilusuario";
+            Usuario usuario = await
+                this.CallApiAsync<Usuario>(request, token);
+            return usuario;
+        }
+
 
 
         #region LOGIN
@@ -473,12 +482,6 @@ namespace MvcProyectoResauranteAPI.Services
         }
 
         #endregion
-
-
-
-
-
-
 
 
     }

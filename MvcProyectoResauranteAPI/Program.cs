@@ -3,7 +3,7 @@ using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Azure;
 using MvcProyectoResauranteAPI.Services;
-using MvcRepasoSegundoExam.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 

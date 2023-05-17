@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using MvcProyectoResauranteAPI.Services;
-using MvcRepasoSegundoExam.Services;
+
 using System.Security.Claims;
 
 namespace MvcProyectoResauranteAPI.Controllers
@@ -82,14 +82,6 @@ namespace MvcProyectoResauranteAPI.Controllers
 
             return RedirectToAction("Login");
         }
-
-
-
-
-
-
-
-
 
 
         //public IActionResult Login()
